@@ -1,4 +1,4 @@
-/*! v1.0.6 */
+/*! v1.0.7 */
 ;(function($, window, document) {
 	var pluginName = 'flowdialog',
 		/*
@@ -246,6 +246,8 @@
 				} else {
 					flowOpt._$content.css(heightOpts);
 				}
+			} else {
+			    flowOpt._$content.css(heightOpts);
 			}
 
 			//Set or remove the overflow CSS class if needed.
