@@ -84,7 +84,7 @@
                 <h1 style="display: inline-block;">
                     FlowDialog
                 </h1>
-                <span style="color: #FFF; font-size: 1em;">v1.0.7</span>
+                <span style="color: #FFF; font-size: 1em;">v1.0.8</span>
                 <p>
                     A top positioned bootstrap inspired modal dialog, that supports flows between content in the same dialog instance.
                 </p>
@@ -466,6 +466,12 @@ var height = $divDialogExample.flowdialog('option', 'height');
             <div class="row">
                 <h4 style="margin-top: 4em;">Changelog</h4>
                 <ul style="list-style: none; padding-left: 1em;">
+                    <li>
+                        1.0.8
+                        <ul>
+                            <li>Fixed a bug where pressing escape to close the dialog when there are multiple flows causes the dialog resizing to go crazy.</li>
+                        </ul>
+                    </li>
                     <li>
                         1.0.7
                         <ul>

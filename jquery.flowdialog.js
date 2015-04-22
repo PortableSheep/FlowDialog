@@ -1,4 +1,4 @@
-/*! v1.0.7 */
+/*! v1.0.8 */
 ;(function($, window, document) {
 	var pluginName = 'flowdialog',
 		/*
@@ -226,7 +226,7 @@
 		},
 		refreshOptions: function(fromFlow) {
 			//Get the current flow object so we can use the options, and handle the height change.
-			var flowOpt = this._flow[this.flowIndex];
+			var flowOpt = this._flow[this.flowIndex],
 				heightOpts = {
                     'height': (flowOpt.growToHeight && flowOpt.height !== 'auto' ? 'auto' : flowOpt.height),
                     'max-height': (flowOpt.growToHeight && flowOpt.height !== 'auto' ? flowOpt.height : '')
@@ -274,6 +274,7 @@
 
 			//Bind up the escape handler if needed.
 			if (flowOpt.closeOnEscape) {
+				this.$document.off('keyup.flowdialog');
 				this.$document.on('keyup.flowdialog', function(e) {
 					if ((e.which||e.keyCode) === 27) {
 						this.close();
@@ -285,6 +286,7 @@
 
 			//Bind up the close on click handler if needed.
 			if (flowOpt.closeOnOverlayClick) {
+				this.$container.off('click.flowdialog');
 				this.$container.on('click.flowdialog', function() {
 					this.close();
 				}.bind(this));
