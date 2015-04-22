@@ -470,6 +470,7 @@ var height = $divDialogExample.flowdialog('option', 'height');
                         1.0.8
                         <ul>
                             <li>Fixed a bug where pressing escape to close the dialog when there are multiple flows causes the dialog resizing to go crazy.</li>
+                            <li>Added flowdialog_onInitComplete event.</li>
                         </ul>
                     </li>
                     <li>
@@ -634,6 +635,10 @@ var height = $divDialogExample.flowdialog('option', 'height');
                 width: 700,
                 closeOnEscape: true
             });
+
+            $flowDialogStep1.on('flowdialog_onInitComplete', function() {
+                console.log(arguments);
+            })
 
             $flowDialogStep1.flowdialog({
                 height: 'auto',

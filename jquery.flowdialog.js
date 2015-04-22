@@ -43,6 +43,7 @@
 		this._flow = [];
 		this.flowIndex = 0;
 		this.isShowing = false;
+		this.isFlowing = false;
 
 		//Initialize the plugin.
 		this.init();
@@ -52,6 +53,7 @@
 				this.initFlow(this.options.flow[i]);
 			}
 		}
+		this._trigger('onInitComplete');
 	}
 
 	/*
@@ -320,6 +322,7 @@
 			if (this._flow.length > 1 && (index <= this._flow.length-1 && index >= 0)) {
 				//Get the current and target flows.
 				var currentFlow = this._flow[this.flowIndex], targetFlow = this._flow[index];
+				this.isFlowing = true;
 				if (this.options.useTransitions) {
 					var targetHeight;
 					if (targetFlow.height === 'auto' || targetFlow.growToHeight) {
@@ -362,6 +365,7 @@
 							this.$modal.css('overflow', '');
 							//Animate the fade in.
 							targetFlow.target.animate({ opacity: 1 }, this.options.animateDuration);
+							this.isFlowing = false;
 							//Resolve our promise.
 							ret.resolve();
 						}, this));
@@ -372,6 +376,7 @@
 					this.flowIndex = index;
 					this.refreshOptions();
 					targetFlow.target.css('opacity', '1').show();
+					this.isFlowing = false;
 					ret.resolve();
 				}
 			} else {
