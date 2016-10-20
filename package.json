@@ -8,6 +8,7 @@
     "modal",
     "ecosystem:jquery"
   ],
+	"homepage": "http://flowdialog.portablesheep.com",
   "author": {
 		"name": "Michael Gunderson",
 		"url": "https://github.com/PortableSheep"
