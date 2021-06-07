@@ -5,4 +5,4 @@ Flow dialog is a bootstrap inspired modal dialog that's top aligned, and support
 Flowing allows you to accomplish wizard like workflows without leaving the dialog.
 
 ## Demo
-[http://flowdialog.portablesheep.com](http://flowdialog.portablesheep.com)
+[http://portablesheep.github.io/projects/FlowDialog/readme/index.html](http://portablesheep.github.io/projects/FlowDialog/readme/index.html)
