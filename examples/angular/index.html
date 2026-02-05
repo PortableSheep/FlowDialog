@@ -146,7 +146,7 @@
 						'<p>Perfect for dynamic content!</p>' +
 						'</div>' +
 						'<div data-type="footer">' +
-						'<button onclick="angular.element(this).scope().closeProgrammatic()">Close</button>' +
+						'<button ng-click="closeProgrammatic()">Close</button>' +
 						'</div>';
 
 					$scope.programmaticDialog = FlowDialogService.open(content, {
@@ -154,10 +154,12 @@
 						closeOnEscape: true,
 						closeOnOverlayClick: true
 					});
+				};
 
-					$scope.closeProgrammatic = function() {
+				$scope.closeProgrammatic = function() {
+					if ($scope.programmaticDialog) {
 						$scope.programmaticDialog.close();
-					};
+					}
 				};
 			}]);
 	</script>

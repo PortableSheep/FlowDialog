@@ -125,7 +125,6 @@
 	function FlowDialog(element, options) {
 		this.element = element;
 		this.options = utils.extend({}, defaults, options);
-		this.vendors = ['Webkit', 'Moz', 'O', 'Ms', 'Khtml'];
 		
 		this.flowTemplate = '<div class="flowdialog-flowcontent">' +
 			'<div class="flowdialog-header"><button type="button" class="flowdialog-close" data-dismiss="modal" aria-hidden="true">×</button><h4 class="flowdialog-title"></h4></div>' +
@@ -510,7 +509,7 @@
 			
 			// Validate index
 			if (this._flow.length <= 1 || index > this._flow.length - 1 || index < 0) {
-				return Promise.reject();
+				return Promise.reject(new Error('Invalid flow index: ' + index + '. Valid range is 0-' + (this._flow.length - 1)));
 			}
 
 			return new Promise(function(resolve, reject) {

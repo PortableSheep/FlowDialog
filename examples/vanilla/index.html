@@ -56,7 +56,7 @@
 			<p>No jQuery or other dependencies required!</p>
 		</div>
 		<div data-type="footer">
-			<button onclick="closeBasicDialog()">Close</button>
+			<button id="closeBasic">Close</button>
 		</div>
 	</div>
 
@@ -66,7 +66,7 @@
 			<p>This is the first step in a multi-step flow.</p>
 		</div>
 		<div data-type="footer">
-			<button onclick="flowDialog.flow('next')">Next</button>
+			<button id="flowNext1">Next</button>
 		</div>
 	</div>
 
@@ -76,8 +76,8 @@
 			<p>This is the second step.</p>
 		</div>
 		<div data-type="footer">
-			<button onclick="flowDialog.flow('prev')">Previous</button>
-			<button onclick="flowDialog.flow('next')">Next</button>
+			<button id="flowPrev2">Previous</button>
+			<button id="flowNext2">Next</button>
 		</div>
 	</div>
 
@@ -87,8 +87,8 @@
 			<p>This is the final step!</p>
 		</div>
 		<div data-type="footer">
-			<button onclick="flowDialog.flow('prev')">Previous</button>
-			<button onclick="flowDialog.close()">Finish</button>
+			<button id="flowPrev3">Previous</button>
+			<button id="flowFinish">Finish</button>
 		</div>
 	</div>
 
@@ -109,11 +109,12 @@
 			basicDialog.open();
 		});
 
-		function closeBasicDialog() {
+		// Close basic dialog
+		document.getElementById('closeBasic').addEventListener('click', function() {
 			if (basicDialog) {
 				basicDialog.close();
 			}
-		}
+		});
 
 		// Flow dialog
 		document.getElementById('openFlow').addEventListener('click', function() {
@@ -125,6 +126,23 @@
 						document.getElementById('flowDialog2'),
 						document.getElementById('flowDialog3')
 					]
+				});
+				
+				// Attach flow navigation handlers
+				document.getElementById('flowNext1').addEventListener('click', function() {
+					flowDialog.flow('next');
+				});
+				document.getElementById('flowPrev2').addEventListener('click', function() {
+					flowDialog.flow('prev');
+				});
+				document.getElementById('flowNext2').addEventListener('click', function() {
+					flowDialog.flow('next');
+				});
+				document.getElementById('flowPrev3').addEventListener('click', function() {
+					flowDialog.flow('prev');
+				});
+				document.getElementById('flowFinish').addEventListener('click', function() {
+					flowDialog.close();
 				});
 			}
 			flowDialog.open();

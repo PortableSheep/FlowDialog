@@ -51,7 +51,7 @@
 			<p>100% backward compatible with the original API!</p>
 		</div>
 		<div data-type="footer">
-			<button onclick="$('#basicDialog').flowdialog('close')">Close</button>
+			<button class="close-basic">Close</button>
 		</div>
 	</div>
 
@@ -61,7 +61,7 @@
 			<p>Flow between dialog views seamlessly.</p>
 		</div>
 		<div data-type="footer">
-			<button onclick="$('#flowDialog1').flowdialog('flow', 'next')">Next</button>
+			<button class="flow-next">Next</button>
 		</div>
 	</div>
 
@@ -71,8 +71,8 @@
 			<p>The API works exactly as before.</p>
 		</div>
 		<div data-type="footer">
-			<button onclick="$('#flowDialog1').flowdialog('flow', 'prev')">Previous</button>
-			<button onclick="$('#flowDialog1').flowdialog('flow', 'next')">Next</button>
+			<button class="flow-prev">Previous</button>
+			<button class="flow-next">Next</button>
 		</div>
 	</div>
 
@@ -82,8 +82,8 @@
 			<p>But now it's powered by a modern, framework-agnostic core!</p>
 		</div>
 		<div data-type="footer">
-			<button onclick="$('#flowDialog1').flowdialog('flow', 'prev')">Previous</button>
-			<button onclick="$('#flowDialog1').flowdialog('close')">Finish</button>
+			<button class="flow-prev">Previous</button>
+			<button class="flow-finish">Finish</button>
 		</div>
 	</div>
 
@@ -101,6 +101,11 @@
 				}).flowdialog('open');
 			});
 
+			// Close handler
+			$(document).on('click', '.close-basic', function() {
+				$('#basicDialog').flowdialog('close');
+			});
+
 			// Flow dialog - backward compatible API
 			$('#openFlow').on('click', function() {
 				$('#flowDialog1').flowdialog({
@@ -111,6 +116,19 @@
 						$('#flowDialog3')
 					]
 				}).flowdialog('open');
+			});
+
+			// Flow navigation handlers
+			$(document).on('click', '.flow-next', function() {
+				$('#flowDialog1').flowdialog('flow', 'next');
+			});
+
+			$(document).on('click', '.flow-prev', function() {
+				$('#flowDialog1').flowdialog('flow', 'prev');
+			});
+
+			$(document).on('click', '.flow-finish', function() {
+				$('#flowDialog1').flowdialog('close');
 			});
 
 			// Event handlers work the same way
