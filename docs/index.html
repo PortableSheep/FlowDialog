@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowDialog - Framework-Agnostic Modal Dialog Library</title>
+    <link rel="stylesheet" href="../flowdialog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero .version {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            opacity: 0.95;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        .section h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .section h3 {
+            font-size: 1.8em;
+            margin: 30px 0 15px;
+            color: #34495e;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .feature i {
+            font-size: 3em;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .feature h3 {
+            font-size: 1.5em;
+            margin: 15px 0;
+        }
+
+        .feature p {
+            color: #666;
+        }
+
+        .code-example {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 25px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .code-example code {
+            color: #f8f8f2;
+        }
+
+        .keyword { color: #ff79c6; }
+        .string { color: #f1fa8c; }
+        .function { color: #50fa7b; }
+        .comment { color: #6272a4; }
+
+        .demo-section {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .demo-section button {
+            margin: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
+        table tr:hover {
+            background: #f8f9fa;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: #e83e8c;
+            font-size: 0.9em;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .info-box strong {
+            color: #667eea;
+        }
+
+        .nav {
+            background: #2c3e50;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-left: 10px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <div style="color: white; font-size: 1.3em; font-weight: 700;">FlowDialog</div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#installation">Installation</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="#api">API</a></li>
+                <li><a href="#examples">Examples</a></li>
+                <li><a href="https://github.com/PortableSheep/FlowDialog">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>FlowDialog</h1>
+        <div class="version">v2.0.0</div>
+        <p>A framework-agnostic modal dialog library with flow/wizard support, dynamic content resizing, and beautiful animations.</p>
+        <div class="hero-buttons">
+            <a href="https://github.com/PortableSheep/FlowDialog" class="btn btn-primary">
+                <i class="fab fa-github"></i> View on GitHub
+            </a>
+            <a href="#demo" class="btn btn-secondary">
+                <i class="fas fa-play"></i> Try Live Demo
+            </a>
+            <a href="../examples/" class="btn btn-secondary">
+                <i class="fas fa-code"></i> View Examples
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <section id="features" class="section">
+            <h2>Features</h2>
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-cubes"></i>
+                    <h3>Framework-Agnostic</h3>
+                    <p>Pure vanilla JavaScript core with zero dependencies. Use it anywhere!</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-route"></i>
+                    <h3>Flow/Wizard Support</h3>
+                    <p>Create multi-step dialogs with seamless transitions between steps.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                    <h3>Dynamic Resizing <span class="badge">NEW</span></h3>
+                    <p>Automatically animate height changes as content grows or shrinks.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-magic"></i>
+                    <h3>Beautiful Animations</h3>
+                    <p>Smooth CSS and JavaScript animations for opening, closing, and flowing.</p>
+                </div>
+                <div class="feature">
+                    <i class="fab fa-js"></i>
+                    <h3>jQuery Adapter</h3>
+                    <p>100% backward compatible with v1.x jQuery plugin API.</p>
+                </div>
+                <div class="feature">
+                    <i class="fab fa-angular"></i>
+                    <h3>Angular Wrapper</h3>
+                    <p>Native Angular directive and service for seamless integration.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-keyboard"></i>
+                    <h3>Keyboard Navigation</h3>
+                    <p>ESC to close, arrow keys for navigation, full accessibility support.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Responsive</h3>
+                    <p>Works beautifully on all screen sizes and devices.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-code"></i>
+                    <h3>TypeScript Support</h3>
+                    <p>Full TypeScript definitions included for better developer experience.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="installation" class="section">
+            <h2>Installation</h2>
+            
+            <h3>Via NPM</h3>
+            <div class="code-example">
+<span class="comment"># Install via npm</span>
+npm install flowdialog
+            </div>
+
+            <h3>Via CDN or Direct Download</h3>
+            <div class="code-example">
+<span class="comment">&lt;!-- CSS --&gt;</span>
+&lt;<span class="keyword">link</span> <span class="function">rel</span>=<span class="string">"stylesheet"</span> <span class="function">href</span>=<span class="string">"flowdialog.css"</span>&gt;
+
+<span class="comment">&lt;!-- Core library (required) --&gt;</span>
+&lt;<span class="keyword">script</span> <span class="function">src</span>=<span class="string">"src/core/flowdialog-core.js"</span>&gt;&lt;/<span class="keyword">script</span>&gt;
+
+<span class="comment">&lt;!-- Optional: jQuery adapter --&gt;</span>
+&lt;<span class="keyword">script</span> <span class="function">src</span>=<span class="string">"src/adapters/jquery.flowdialog.js"</span>&gt;&lt;/<span class="keyword">script</span>&gt;
+
+<span class="comment">&lt;!-- Optional: Angular wrapper --&gt;</span>
+&lt;<span class="keyword">script</span> <span class="function">src</span>=<span class="string">"src/angular/angular-flowdialog.js"</span>&gt;&lt;/<span class="keyword">script</span>&gt;
+            </div>
+        </section>
+
+        <section id="quick-start" class="section">
+            <h2>Quick Start</h2>
+
+            <h3>Vanilla JavaScript</h3>
+            <div class="code-example">
+<span class="comment">// Create a dialog from an element</span>
+<span class="keyword">var</span> dialog = <span class="keyword">new</span> <span class="function">FlowDialog</span>(document.getElementById(<span class="string">'myDialog'</span>), {
+    width: <span class="string">600</span>,
+    closeOnEscape: <span class="keyword">true</span>,
+    growToHeight: <span class="keyword">true</span>,  <span class="comment">// Enable dynamic resizing</span>
+    height: <span class="string">500</span>           <span class="comment">// Max height when growToHeight is true</span>
+});
+
+<span class="comment">// Open the dialog</span>
+dialog.open();
+
+<span class="comment">// Listen to events</span>
+dialog.on(<span class="string">'onOpen'</span>, <span class="keyword">function</span>() {
+    console.log(<span class="string">'Dialog opened!'</span>);
+});
+            </div>
+
+            <h3>jQuery (Backward Compatible)</h3>
+            <div class="code-example">
+<span class="comment">// Initialize and open</span>
+$(<span class="string">'#myDialog'</span>).flowdialog({ 
+    width: <span class="string">600</span>,
+    growToHeight: <span class="keyword">true</span>
+}).flowdialog(<span class="string">'open'</span>);
+
+<span class="comment">// Events work the same way</span>
+$(<span class="string">'#myDialog'</span>).on(<span class="string">'flowdialog_onOpen'</span>, <span class="keyword">function</span>() {
+    console.log(<span class="string">'Dialog opened!'</span>);
+});
+            </div>
+
+            <h3>Angular</h3>
+            <div class="code-example">
+<span class="comment">&lt;!-- Declarative approach with directive --&gt;</span>
+&lt;<span class="keyword">div</span> <span class="function">flow-dialog</span> 
+     <span class="function">flow-dialog-instance</span>=<span class="string">"myDialog"</span>
+     <span class="function">flow-dialog-width</span>=<span class="string">"600"</span>
+     <span class="function">title</span>=<span class="string">"My Dialog"</span>&gt;
+    &lt;<span class="keyword">p</span>&gt;Content here&lt;/<span class="keyword">p</span>&gt;
+&lt;/<span class="keyword">div</span>&gt;
+
+&lt;<span class="keyword">button</span> <span class="function">ng-click</span>=<span class="string">"myDialog.open()"</span>&gt;Open&lt;/<span class="keyword">button</span>&gt;
+            </div>
+        </section>
+
+        <section id="demo" class="section">
+            <h2>Live Demos</h2>
+            
+            <div class="demo-section">
+                <h3>Single Dialog</h3>
+                <p>A simple dialog with default options.</p>
+                <button id="btnSimpleDialog" class="btn btn-primary">Launch Simple Dialog</button>
+            </div>
+
+            <div class="demo-section">
+                <h3>Flow Dialog (Wizard)</h3>
+                <p>A multi-step flow with transitions and animations.</p>
+                <button id="btnFlowDialog" class="btn btn-primary">Launch Flow Dialog</button>
+            </div>
+
+            <div class="demo-section">
+                <h3>Dynamic Content Resizing</h3>
+                <p>Watch the dialog smoothly resize as content changes!</p>
+                <button id="btnDynamicDialog" class="btn btn-primary">Launch Dynamic Dialog</button>
+            </div>
+
+            <div class="info-box">
+                <strong>Want More?</strong> Check out the <a href="../examples/">comprehensive examples</a> for vanilla JS, jQuery, and Angular implementations with advanced features like form validation, conditional flows, and more!
+            </div>
+        </section>
+
+        <section id="api" class="section">
+            <h2>API Reference</h2>
+
+            <h3>Options</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Option</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>height</code></td>
+                        <td>number | 'auto'</td>
+                        <td><code>'auto'</code></td>
+                        <td>Height of the dialog content. If 'auto', height grows with content.</td>
+                    </tr>
+                    <tr>
+                        <td><code>growToHeight</code> <span class="badge">Featured</span></td>
+                        <td>boolean</td>
+                        <td><code>false</code></td>
+                        <td>When true, the 'height' option becomes max-height, and content animates as it grows/shrinks.</td>
+                    </tr>
+                    <tr>
+                        <td><code>width</code></td>
+                        <td>number</td>
+                        <td><code>600</code></td>
+                        <td>Width of the dialog in pixels.</td>
+                    </tr>
+                    <tr>
+                        <td><code>showCloseButton</code></td>
+                        <td>boolean</td>
+                        <td><code>true</code></td>
+                        <td>Show the close button in the upper right corner.</td>
+                    </tr>
+                    <tr>
+                        <td><code>closeOnEscape</code></td>
+                        <td>boolean</td>
+                        <td><code>false</code></td>
+                        <td>Allow closing the dialog by pressing ESC.</td>
+                    </tr>
+                    <tr>
+                        <td><code>closeOnOverlayClick</code></td>
+                        <td>boolean</td>
+                        <td><code>false</code></td>
+                        <td>Allow closing by clicking outside the dialog.</td>
+                    </tr>
+                    <tr>
+                        <td><code>autoOpen</code></td>
+                        <td>boolean</td>
+                        <td><code>false</code></td>
+                        <td>Automatically open the dialog on initialization.</td>
+                    </tr>
+                    <tr>
+                        <td><code>useTransitions</code></td>
+                        <td>boolean</td>
+                        <td><code>true</code></td>
+                        <td>Enable animations when opening, closing, or resizing.</td>
+                    </tr>
+                    <tr>
+                        <td><code>animateDuration</code></td>
+                        <td>number</td>
+                        <td><code>250</code></td>
+                        <td>Animation duration in milliseconds.</td>
+                    </tr>
+                    <tr>
+                        <td><code>flow</code></td>
+                        <td>Array</td>
+                        <td><code>[]</code></td>
+                        <td>Array of elements or objects defining additional flow steps.</td>
+                    </tr>
+                    <tr>
+                        <td><code>appendTo</code></td>
+                        <td>Element</td>
+                        <td><code>document.body</code></td>
+                        <td>Element to append the dialog to.</td>
+                    </tr>
+                    <tr>
+                        <td><code>hideEmptyFooter</code></td>
+                        <td>boolean</td>
+                        <td><code>true</code></td>
+                        <td>Hide footer if no footer content is defined.</td>
+                    </tr>
+                    <tr>
+                        <td><code>hideEmptyTitle</code></td>
+                        <td>boolean</td>
+                        <td><code>false</code></td>
+                        <td>Hide title bar if no title is defined and close button is hidden.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Methods</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Arguments</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>open()</code></td>
+                        <td>index (optional)</td>
+                        <td>Opens the dialog. If index provided, opens to that flow step.</td>
+                    </tr>
+                    <tr>
+                        <td><code>close()</code></td>
+                        <td>-</td>
+                        <td>Closes the dialog.</td>
+                    </tr>
+                    <tr>
+                        <td><code>flow()</code></td>
+                        <td>command, ...args</td>
+                        <td>Control flow navigation. Commands: 'next', 'prev', 'index', or step number.</td>
+                    </tr>
+                    <tr>
+                        <td><code>option()</code></td>
+                        <td>name, value (optional)</td>
+                        <td>Get or set an option value.</td>
+                    </tr>
+                    <tr>
+                        <td><code>reposition()</code></td>
+                        <td>-</td>
+                        <td>Recenter the dialog on the page.</td>
+                    </tr>
+                    <tr>
+                        <td><code>on()</code></td>
+                        <td>event, callback</td>
+                        <td>Attach an event listener.</td>
+                    </tr>
+                    <tr>
+                        <td><code>off()</code></td>
+                        <td>event, callback (optional)</td>
+                        <td>Remove an event listener.</td>
+                    </tr>
+                    <tr>
+                        <td><code>destroy()</code></td>
+                        <td>-</td>
+                        <td>Destroy the dialog instance and clean up.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Events</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>onOpen</code></td>
+                        <td>Triggered when the dialog is opened.</td>
+                    </tr>
+                    <tr>
+                        <td><code>onClose</code></td>
+                        <td>Triggered when the dialog is closed.</td>
+                    </tr>
+                    <tr>
+                        <td><code>onPreClose</code></td>
+                        <td>Triggered before closing. Prevent default to cancel close.</td>
+                    </tr>
+                    <tr>
+                        <td><code>onFlow</code></td>
+                        <td>Triggered when flow navigation occurs.</td>
+                    </tr>
+                    <tr>
+                        <td><code>onReposition</code></td>
+                        <td>Triggered when dialog is repositioned.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="examples" class="section">
+            <h2>Code Examples</h2>
+
+            <h3>Creating a Flow (Wizard)</h3>
+            <div class="code-example">
+<span class="comment">// HTML structure</span>
+&lt;<span class="keyword">div</span> <span class="function">id</span>=<span class="string">"step1"</span> <span class="function">title</span>=<span class="string">"Step 1"</span>&gt;
+    &lt;<span class="keyword">p</span>&gt;Content for step 1&lt;/<span class="keyword">p</span>&gt;
+    &lt;<span class="keyword">div</span> <span class="function">data-type</span>=<span class="string">"footer"</span>&gt;
+        &lt;<span class="keyword">button</span> <span class="function">onclick</span>=<span class="string">"dialog.flow('next')"</span>&gt;Next&lt;/<span class="keyword">button</span>&gt;
+    &lt;/<span class="keyword">div</span>&gt;
+&lt;/<span class="keyword">div</span>&gt;
+
+&lt;<span class="keyword">div</span> <span class="function">id</span>=<span class="string">"step2"</span> <span class="function">title</span>=<span class="string">"Step 2"</span> <span class="function">style</span>=<span class="string">"display:none"</span>&gt;
+    &lt;<span class="keyword">p</span>&gt;Content for step 2&lt;/<span class="keyword">p</span>&gt;
+    &lt;<span class="keyword">div</span> <span class="function">data-type</span>=<span class="string">"footer"</span>&gt;
+        &lt;<span class="keyword">button</span> <span class="function">onclick</span>=<span class="string">"dialog.flow('prev')"</span>&gt;Previous&lt;/<span class="keyword">button</span>&gt;
+        &lt;<span class="keyword">button</span> <span class="function">onclick</span>=<span class="string">"dialog.close()"</span>&gt;Finish&lt;/<span class="keyword">button</span>&gt;
+    &lt;/<span class="keyword">div</span>&gt;
+&lt;/<span class="keyword">div</span>&gt;
+
+<span class="comment">// JavaScript</span>
+<span class="keyword">var</span> dialog = <span class="keyword">new</span> <span class="function">FlowDialog</span>(document.getElementById(<span class="string">'step1'</span>), {
+    width: <span class="string">600</span>,
+    flow: [
+        document.getElementById(<span class="string">'step2'</span>)
+    ]
+});
+            </div>
+
+            <h3>Dynamic Content with growToHeight</h3>
+            <div class="code-example">
+<span class="keyword">var</span> dialog = <span class="keyword">new</span> <span class="function">FlowDialog</span>(document.getElementById(<span class="string">'myDialog'</span>), {
+    width: <span class="string">600</span>,
+    growToHeight: <span class="keyword">true</span>,    <span class="comment">// Enable dynamic resizing</span>
+    height: <span class="string">500</span>,             <span class="comment">// This becomes max-height</span>
+    useTransitions: <span class="keyword">true</span>,  <span class="comment">// Animate the resize</span>
+    animateDuration: <span class="string">300</span>    <span class="comment">// Animation speed</span>
+});
+
+dialog.open();
+
+<span class="comment">// When content changes, the dialog will automatically</span>
+<span class="comment">// animate to the new height (up to max of 500px)</span>
+            </div>
+
+            <h3>Event Handling</h3>
+            <div class="code-example">
+<span class="keyword">var</span> dialog = <span class="keyword">new</span> <span class="function">FlowDialog</span>(element, options);
+
+<span class="comment">// Listen to events</span>
+dialog.on(<span class="string">'onOpen'</span>, <span class="keyword">function</span>() {
+    console.log(<span class="string">'Dialog opened'</span>);
+});
+
+dialog.on(<span class="string">'onFlow'</span>, <span class="keyword">function</span>() {
+    console.log(<span class="string">'Current flow index:'</span>, dialog.flowIndex);
+});
+
+dialog.on(<span class="string">'onPreClose'</span>, <span class="keyword">function</span>(e) {
+    <span class="keyword">if</span> (!confirm(<span class="string">'Are you sure?'</span>)) {
+        e.preventDefault(); <span class="comment">// Cancel the close</span>
+    }
+});
+            </div>
+
+            <div class="info-box">
+                <strong>More Examples:</strong> Visit the <a href="../examples/">examples directory</a> for complete working examples including:
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li>Vanilla JavaScript examples</li>
+                    <li>jQuery adapter examples with backward compatibility</li>
+                    <li>Angular deep-dive with forms, validation, and complex wizards</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="browser-support" class="section">
+            <h2>Browser Support</h2>
+            <div class="features">
+                <div class="feature">
+                    <i class="fab fa-chrome"></i>
+                    <h3>Chrome</h3>
+                    <p>Latest versions</p>
+                </div>
+                <div class="feature">
+                    <i class="fab fa-firefox"></i>
+                    <h3>Firefox</h3>
+                    <p>Latest versions</p>
+                </div>
+                <div class="feature">
+                    <i class="fab fa-safari"></i>
+                    <h3>Safari</h3>
+                    <p>Latest versions</p>
+                </div>
+                <div class="feature">
+                    <i class="fab fa-edge"></i>
+                    <h3>Edge</h3>
+                    <p>Latest versions</p>
+                </div>
+                <div class="feature">
+                    <i class="fab fa-internet-explorer"></i>
+                    <h3>IE</h3>
+                    <p>IE 9+ (with polyfills)</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>FlowDialog is dual licensed under the <a href="https://opensource.org/licenses/MIT">MIT</a> and <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL</a> licenses.</p>
+        <p style="margin-top: 10px;">
+            Created by <a href="https://github.com/PortableSheep">PortableSheep</a> | 
+            <a href="https://github.com/PortableSheep/FlowDialog">GitHub Repository</a> | 
+            <a href="https://www.npmjs.com/package/flowdialog">NPM Package</a>
+        </p>
+    </footer>
+
+    <!-- Demo dialogs -->
+    <div id="simpleDialog" style="display:none;" title="Simple Dialog">
+        <div style="padding: 20px;">
+            <h3>Welcome to FlowDialog!</h3>
+            <p>This is a simple dialog with default options.</p>
+            <p>FlowDialog is a framework-agnostic modal dialog library that makes it easy to create beautiful, functional dialogs.</p>
+        </div>
+        <div data-type="footer">
+            <button class="btn btn-primary" onclick="simpleDialog.close()">Close</button>
+        </div>
+    </div>
+
+    <div id="flowStep1" style="display:none;" title="Flow Dialog - Step 1 of 3">
+        <div style="padding: 20px;">
+            <h3>Step 1: Welcome</h3>
+            <p>This is a flow dialog with multiple steps.</p>
+            <p>Click "Next" to continue to the next step with a smooth transition.</p>
+        </div>
+        <div data-type="footer">
+            <button class="btn btn-secondary" onclick="flowDialog.close()">Cancel</button>
+            <button class="btn btn-primary" onclick="flowDialog.flow('next')">Next</button>
+        </div>
+    </div>
+
+    <div id="flowStep2" style="display:none;" title="Flow Dialog - Step 2 of 3">
+        <div style="padding: 20px;">
+            <h3>Step 2: Features</h3>
+            <p>Notice how the dialog smoothly transitions between steps?</p>
+            <p>FlowDialog automatically handles the animations for you.</p>
+        </div>
+        <div data-type="footer">
+            <button class="btn btn-secondary" onclick="flowDialog.flow('prev')">Previous</button>
+            <button class="btn btn-primary" onclick="flowDialog.flow('next')">Next</button>
+        </div>
+    </div>
+
+    <div id="flowStep3" style="display:none;" title="Flow Dialog - Step 3 of 3">
+        <div style="padding: 20px;">
+            <h3>Step 3: Complete</h3>
+            <p>You've reached the final step!</p>
+            <p>Flow dialogs are perfect for wizards, onboarding, and multi-step forms.</p>
+        </div>
+        <div data-type="footer">
+            <button class="btn btn-secondary" onclick="flowDialog.flow('prev')">Previous</button>
+            <button class="btn btn-primary" onclick="flowDialog.close()">Finish</button>
+        </div>
+    </div>
+
+    <div id="dynamicDialog" style="display:none;" title="Dynamic Content Resizing">
+        <div style="padding: 20px;">
+            <h3>Dynamic Content Demo</h3>
+            <div class="info-box">
+                <strong>growToHeight Feature:</strong> Watch the dialog smoothly resize as content is added or removed!
+            </div>
+            <div id="dynamicContent">
+                <p>This dialog uses <code>growToHeight: true</code> to automatically resize.</p>
+            </div>
+            <button class="btn btn-primary" onclick="addContent()">Add Content</button>
+            <button class="btn btn-secondary" onclick="removeContent()">Remove Content</button>
+        </div>
+        <div data-type="footer">
+            <button class="btn btn-primary" onclick="dynamicDialog.close()">Close</button>
+        </div>
+    </div>
+
+    <script src="../src/core/flowdialog-core.js"></script>
+    <script>
+        var simpleDialog, flowDialog, dynamicDialog;
+        var contentCount = 1;
+
+        document.getElementById('btnSimpleDialog').addEventListener('click', function() {
+            if (!simpleDialog) {
+                simpleDialog = new FlowDialog(document.getElementById('simpleDialog'), {
+                    width: 500,
+                    closeOnEscape: true,
+                    closeOnOverlayClick: true
+                });
+            }
+            simpleDialog.open();
+        });
+
+        document.getElementById('btnFlowDialog').addEventListener('click', function() {
+            if (!flowDialog) {
+                flowDialog = new FlowDialog(document.getElementById('flowStep1'), {
+                    width: 600,
+                    closeOnEscape: true,
+                    useTransitions: true,
+                    animateDuration: 300,
+                    flow: [
+                        document.getElementById('flowStep2'),
+                        document.getElementById('flowStep3')
+                    ]
+                });
+            }
+            flowDialog.open();
+        });
+
+        document.getElementById('btnDynamicDialog').addEventListener('click', function() {
+            if (!dynamicDialog) {
+                dynamicDialog = new FlowDialog(document.getElementById('dynamicDialog'), {
+                    width: 600,
+                    growToHeight: true,
+                    height: 600,
+                    closeOnEscape: true,
+                    useTransitions: true,
+                    animateDuration: 300
+                });
+            }
+            contentCount = 1;
+            document.getElementById('dynamicContent').innerHTML = '<p>This dialog uses <code>growToHeight: true</code> to automatically resize.</p>';
+            dynamicDialog.open();
+        });
+
+        function addContent() {
+            contentCount++;
+            var content = document.getElementById('dynamicContent');
+            var p = document.createElement('p');
+            p.textContent = 'Content section ' + contentCount + ': This is dynamically added content. Watch the dialog animate as it grows!';
+            p.style.background = '#f0f0f0';
+            p.style.padding = '10px';
+            p.style.margin = '10px 0';
+            p.style.borderRadius = '4px';
+            content.appendChild(p);
+        }
+
+        function removeContent() {
+            var content = document.getElementById('dynamicContent');
+            if (content.children.length > 1) {
+                content.removeChild(content.lastChild);
+                contentCount--;
+            }
+        }
+    </script>
+</body>
+</html>
