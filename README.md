@@ -1,28 +1,26 @@
 # FlowDialog
 
-> **📢 Version 2.0 Released!** FlowDialog has been modernized with a framework-agnostic core. See [v2.0 Documentation](README-v2.md) and [Migration Guide](MIGRATION.md).
-
-Flow dialog is a modal dialog library that's top-aligned and supports "flowing" between multiple dialog contents.
+Flow dialog is a **framework-agnostic** modal dialog library that's top-aligned and supports "flowing" between multiple dialog contents.
 
 Flowing allows you to accomplish wizard-like workflows without leaving the dialog.
 
 ## Quick Links
 
-- 📘 [**v2.0 Documentation**](README-v2.md) - Complete guide for v2.0
-- 🔄 [**Migration Guide**](MIGRATION.md) - Upgrade from v1.x to v2.0
-- 🎯 [**Live Demo**](http://portablesheep.github.io/projects/FlowDialog/readme/index.html)
+- 🎯 [**Interactive Demo**](https://portablesheep.github.io/FlowDialog/examples/) - Try it live!
 - 💻 [**Examples**](examples/) - Vanilla JS, jQuery, and Angular examples
+- 📦 [**NPM Package**](https://www.npmjs.com/package/flowdialog)
 
-## What's New in v2.0
-
-FlowDialog v2.0 represents a complete modernization:
+## Features
 
 - ✨ **Framework-Agnostic Core** - Pure vanilla JavaScript with zero dependencies
 - 🔌 **jQuery Adapter** - 100% backward compatible with v1.x
 - 🅰️ **Angular Wrapper** - Native Angular directive and service
 - 📦 **Modular Design** - Use only what you need
 - 🎯 **TypeScript Support** - Full TypeScript definitions included
-- 🚀 **Modern APIs** - Promises, ES modules, and more
+- 🚀 **Modern APIs** - Promises, event handling, and more
+- 🎨 **Flow/Wizard Support** - Create multi-step experiences
+- ⌨️ **Keyboard Navigation** - ESC to close, arrow keys supported
+- 📱 **Responsive** - Works on all screen sizes
 
 ## Installation
 
@@ -74,9 +72,15 @@ $('#myDialog').flowdialog({ width: 600 }).flowdialog('open');
 
 ## Documentation
 
-- [**Full v2.0 Documentation**](README-v2.md)
-- [**Migration Guide**](MIGRATION.md)
-- [**Examples**](examples/)
+For detailed examples and usage patterns, see the [examples](examples/) directory which includes:
+- Vanilla JavaScript examples
+- jQuery adapter examples  
+- Angular wrapper examples
 
-## Demo
-[http://portablesheep.github.io/projects/FlowDialog/readme/index.html](http://portablesheep.github.io/projects/FlowDialog/readme/index.html)
+## More Information
+
+Check out the [interactive demo](https://portablesheep.github.io/FlowDialog/examples/) to try all the features live!
+
+## License
+
+Dual licensed under MIT and GPL licenses.
