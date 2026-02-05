@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="flowDialogExample">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>FlowDialog - Angular Example</title>
+	<link rel="stylesheet" href="../../flowdialog.css">
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			padding: 20px;
+			max-width: 800px;
+			margin: 0 auto;
+		}
+		h1 {
+			color: #333;
+		}
+		button {
+			padding: 10px 20px;
+			margin: 5px;
+			cursor: pointer;
+			background: #007bff;
+			color: white;
+			border: none;
+			border-radius: 4px;
+		}
+		button:hover {
+			background: #0056b3;
+		}
+		.example-content {
+			padding: 20px;
+		}
+		[ng-cloak] {
+			display: none;
+		}
+	</style>
+</head>
+<body ng-controller="MainController" ng-cloak>
+	<h1>FlowDialog - Angular Example</h1>
+	<p>This demonstrates the Angular wrapper for FlowDialog.</p>
+
+	<h2>Declarative Dialog (Directive)</h2>
+	<button ng-click="dialog1.open()">Open Dialog (Directive)</button>
+
+	<h2>Programmatic Dialog (Service)</h2>
+	<button ng-click="openProgrammaticDialog()">Open Dialog (Service)</button>
+
+	<h2>Flow Dialog</h2>
+	<button ng-click="flowDialogInstance.open()">Open Flow Dialog</button>
+
+	<!-- Declarative dialog using directive -->
+	<div flow-dialog 
+		 flow-dialog-instance="dialog1"
+		 flow-dialog-width="500"
+		 flow-dialog-close-on-escape="true"
+		 flow-dialog-close-on-overlay-click="true"
+		 style="display:none;" 
+		 title="Angular Directive Dialog">
+		<div class="example-content">
+			<h3>Angular Directive Dialog</h3>
+			<p>This dialog is created using the flow-dialog directive.</p>
+			<p>It integrates seamlessly with Angular's digest cycle.</p>
+		</div>
+		<div data-type="footer">
+			<button ng-click="dialog1.close()">Close</button>
+		</div>
+	</div>
+
+	<!-- Flow dialog -->
+	<div flow-dialog
+		 flow-dialog-instance="flowDialogInstance"
+		 flow-dialog-options="flowOptions"
+		 style="display:none;"
+		 title="Step 1 - Angular Flow">
+		<div class="example-content">
+			<h3>Step {{currentStep}} of 3</h3>
+			<p>Angular makes it easy to bind data to your dialogs.</p>
+			<p>Current step: {{currentStep}}</p>
+		</div>
+		<div data-type="footer">
+			<button ng-click="flowDialogInstance.flow('next')" ng-show="currentStep < 3">Next</button>
+		</div>
+	</div>
+
+	<div id="flowStep2" style="display:none;" title="Step 2 - Angular Flow">
+		<div class="example-content">
+			<h3>Step 2 of 3</h3>
+			<p>Flow between views with Angular data binding.</p>
+		</div>
+		<div data-type="footer">
+			<button ng-click="flowDialogInstance.flow('prev')">Previous</button>
+			<button ng-click="flowDialogInstance.flow('next')">Next</button>
+		</div>
+	</div>
+
+	<div id="flowStep3" style="display:none;" title="Step 3 - Angular Flow">
+		<div class="example-content">
+			<h3>Step 3 of 3</h3>
+			<p>All done! The Angular wrapper makes FlowDialog easy to use.</p>
+		</div>
+		<div data-type="footer">
+			<button ng-click="flowDialogInstance.flow('prev')">Previous</button>
+			<button ng-click="flowDialogInstance.close()">Finish</button>
+		</div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js" integrity="sha384-IIvp+2w74tDLm4BNO/3jkdP1F1D7WvyMmEd0MzkpTqDd/w5sKaT5QIcVFXdq/M+m" crossorigin="anonymous"></script>
+	<script src="../../src/core/flowdialog-core.js"></script>
+	<script src="../../src/angular/angular-flowdialog.js"></script>
+	<script>
+		angular.module('flowDialogExample', ['flowdialog'])
+			.controller('MainController', ['$scope', 'FlowDialogService', function($scope, FlowDialogService) {
+				$scope.currentStep = 1;
+
+				// Flow options
+				$scope.flowOptions = {
+					width: 600,
+					closeOnEscape: true,
+					flow: [
+						document.getElementById('flowStep2'),
+						document.getElementById('flowStep3')
+					]
+				};
+
+				// Watch flow changes to update current step
+				$scope.$watch('flowDialogInstance', function(dialog) {
+					if (dialog) {
+						dialog.on('onFlow', function() {
+							$scope.$apply(function() {
+								$scope.currentStep = dialog.flowIndex + 1;
+							});
+						});
+						dialog.on('onOpen', function() {
+							$scope.$apply(function() {
+								$scope.currentStep = dialog.flowIndex + 1;
+							});
+						});
+					}
+				});
+
+				// Programmatic dialog using service
+				$scope.openProgrammaticDialog = function() {
+					var content = '<div class="example-content">' +
+						'<h3>Programmatic Dialog</h3>' +
+						'<p>This dialog was created using the FlowDialogService.</p>' +
+						'<p>Perfect for dynamic content!</p>' +
+						'</div>' +
+						'<div data-type="footer">' +
+						'<button ng-click="closeProgrammatic()">Close</button>' +
+						'</div>';
+
+					$scope.programmaticDialog = FlowDialogService.open(content, {
+						width: 500,
+						closeOnEscape: true,
+						closeOnOverlayClick: true
+					});
+				};
+
+				$scope.closeProgrammatic = function() {
+					if ($scope.programmaticDialog) {
+						$scope.programmaticDialog.close();
+					}
+				};
+			}]);
+	</script>
+</body>
+</html>
