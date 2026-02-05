@@ -475,20 +475,18 @@
 		 * Reposition the dialog
 		 */
 		reposition: function() {
-			var overlayOpts = {
-				'width': window.innerWidth,
-				'height': window.innerHeight
-			};
-
+			var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+			var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+			
 			// Set overlay dimensions
-			this.$overlay.style.width = overlayOpts.width + 'px';
-			this.$overlay.style.height = overlayOpts.height + 'px';
-			this.$container.style.width = overlayOpts.width + 'px';
-			this.$container.style.height = overlayOpts.height + 'px';
+			this.$overlay.style.width = viewportWidth + 'px';
+			this.$overlay.style.height = viewportHeight + 'px';
+			this.$container.style.width = viewportWidth + 'px';
+			this.$container.style.height = viewportHeight + 'px';
 
-			// Position modal
+			// Position modal - center horizontally
 			var width = this._flow[this.flowIndex].width;
-			var left = ((this.$container.offsetWidth - width) / 2 + window.pageXOffset);
+			var left = Math.max(0, (viewportWidth - width) / 2) + (window.pageXOffset || document.documentElement.scrollLeft || 0);
 
 			if (!this.isShowing || !this.options.useTransitions) {
 				this.$modal.style.width = width + 'px';
@@ -554,7 +552,7 @@
 						
 						utils.animate(self.$modal, {
 							width: targetFlow.width,
-							left: ((self.$container.offsetWidth - targetFlow.width) / 2 + window.pageXOffset)
+							left: Math.max(0, ((window.innerWidth || document.documentElement.clientWidth) - targetFlow.width) / 2) + (window.pageXOffset || document.documentElement.scrollLeft || 0)
 						}, self.options.animateDuration, function() {
 							// Update flow index
 							self.flowIndex = index;
