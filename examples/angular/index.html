@@ -3,29 +3,63 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>FlowDialog - Angular Example</title>
+	<title>FlowDialog - Angular Deep Dive Examples</title>
 	<link rel="stylesheet" href="../../flowdialog.css">
 	<style>
 		body {
-			font-family: Arial, sans-serif;
-			padding: 20px;
-			max-width: 800px;
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+			padding: 30px;
+			max-width: 1000px;
 			margin: 0 auto;
+			background: #f5f5f5;
 		}
 		h1 {
-			color: #333;
+			color: #2c3e50;
+			border-bottom: 3px solid #3498db;
+			padding-bottom: 10px;
+		}
+		h2 {
+			color: #34495e;
+			margin-top: 30px;
+		}
+		h3 {
+			color: #7f8c8d;
+		}
+		.demo-section {
+			background: white;
+			padding: 20px;
+			margin: 20px 0;
+			border-radius: 8px;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 		}
 		button {
-			padding: 10px 20px;
+			padding: 12px 24px;
 			margin: 5px;
 			cursor: pointer;
-			background: #007bff;
+			background: #3498db;
 			color: white;
 			border: none;
-			border-radius: 4px;
+			border-radius: 5px;
+			font-size: 14px;
+			font-weight: 500;
+			transition: all 0.3s;
 		}
 		button:hover {
-			background: #0056b3;
+			background: #2980b9;
+			transform: translateY(-1px);
+			box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+		}
+		button.secondary {
+			background: #95a5a6;
+		}
+		button.secondary:hover {
+			background: #7f8c8d;
+		}
+		button.success {
+			background: #27ae60;
+		}
+		button.success:hover {
+			background: #229954;
 		}
 		.example-content {
 			padding: 20px;
@@ -33,22 +67,140 @@
 		[ng-cloak] {
 			display: none;
 		}
+		.form-group {
+			margin: 15px 0;
+		}
+		.form-group label {
+			display: block;
+			margin-bottom: 5px;
+			font-weight: 500;
+			color: #34495e;
+		}
+		.form-group input,
+		.form-group textarea,
+		.form-group select {
+			width: 100%;
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			font-size: 14px;
+			box-sizing: border-box;
+		}
+		.form-group input:focus,
+		.form-group textarea:focus,
+		.form-group select:focus {
+			outline: none;
+			border-color: #3498db;
+			box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+		}
+		.error {
+			color: #e74c3c;
+			font-size: 12px;
+			margin-top: 5px;
+		}
+		.success-message {
+			background: #d4edda;
+			color: #155724;
+			padding: 15px;
+			border-radius: 4px;
+			border: 1px solid #c3e6cb;
+		}
+		.info-box {
+			background: #e8f4f8;
+			padding: 15px;
+			border-left: 4px solid #3498db;
+			margin: 15px 0;
+		}
+		.dynamic-content {
+			transition: all 0.3s ease;
+		}
+		.dynamic-content.expanded {
+			padding: 20px;
+			background: #ecf0f1;
+			border-radius: 4px;
+		}
+		.progress-bar {
+			width: 100%;
+			height: 8px;
+			background: #ecf0f1;
+			border-radius: 4px;
+			overflow: hidden;
+			margin: 15px 0;
+		}
+		.progress-bar-fill {
+			height: 100%;
+			background: #3498db;
+			transition: width 0.3s ease;
+		}
+		.step-indicator {
+			text-align: center;
+			margin: 20px 0;
+		}
+		.step-indicator span {
+			display: inline-block;
+			width: 30px;
+			height: 30px;
+			line-height: 30px;
+			border-radius: 50%;
+			background: #ecf0f1;
+			margin: 0 5px;
+			color: #7f8c8d;
+		}
+		.step-indicator span.active {
+			background: #3498db;
+			color: white;
+		}
+		.step-indicator span.completed {
+			background: #27ae60;
+			color: white;
+		}
+		.feature-badge {
+			display: inline-block;
+			background: #3498db;
+			color: white;
+			padding: 3px 10px;
+			border-radius: 12px;
+			font-size: 11px;
+			margin-left: 8px;
+		}
 	</style>
 </head>
 <body ng-controller="MainController" ng-cloak>
-	<h1>FlowDialog - Angular Example</h1>
-	<p>This demonstrates the Angular wrapper for FlowDialog.</p>
+	<h1>FlowDialog - Angular Deep Dive Examples</h1>
+	<p style="font-size: 16px; color: #7f8c8d;">Comprehensive demonstrations of FlowDialog's features with Angular integration.</p>
 
-	<h2>Declarative Dialog (Directive)</h2>
-	<button ng-click="dialog1.open()">Open Dialog (Directive)</button>
+	<div class="demo-section">
+		<h2>1. Basic Dialogs</h2>
+		<p>Simple dialog examples demonstrating the directive and service approaches.</p>
+		<button ng-click="dialog1.open()">Open Dialog (Directive)</button>
+		<button ng-click="openProgrammaticDialog()">Open Dialog (Service)</button>
+	</div>
 
-	<h2>Programmatic Dialog (Service)</h2>
-	<button ng-click="openProgrammaticDialog()">Open Dialog (Service)</button>
+	<div class="demo-section">
+		<h2>2. Dynamic Content & GrowToHeight <span class="feature-badge">NEW</span></h2>
+		<p>Demonstrates dynamic content resizing with animated height transitions.</p>
+		<button ng-click="dynamicDialog.open()">Open Dynamic Dialog</button>
+	</div>
 
-	<h2>Flow Dialog</h2>
-	<button ng-click="flowDialogInstance.open()">Open Flow Dialog</button>
+	<div class="demo-section">
+		<h2>3. Multi-Step Flow with Validation <span class="feature-badge">NEW</span></h2>
+		<p>A complete user registration flow with form validation and progress tracking.</p>
+		<button ng-click="registrationFlow.open()">Start Registration Flow</button>
+	</div>
 
-	<!-- Declarative dialog using directive -->
+	<div class="demo-section">
+		<h2>4. Basic Flow Dialog</h2>
+		<p>Simple flow between multiple dialog views.</p>
+		<button ng-click="flowDialogInstance.open()">Open Flow Dialog</button>
+	</div>
+
+	<div class="demo-section">
+		<h2>5. Advanced Flow - Product Wizard <span class="feature-badge">NEW</span></h2>
+		<p>Complex wizard with conditional steps, data binding, and dynamic content.</p>
+		<button ng-click="productWizard.open()">Start Product Wizard</button>
+	</div>
+
+	<!-- 1. Declarative dialog using directive -->
 	<div flow-dialog 
 		 flow-dialog-instance="dialog1"
 		 flow-dialog-width="500"
@@ -66,7 +218,185 @@
 		</div>
 	</div>
 
-	<!-- Flow dialog -->
+	<!-- 2. Dynamic content with growToHeight -->
+	<div flow-dialog
+		 flow-dialog-instance="dynamicDialog"
+		 flow-dialog-options="dynamicOptions"
+		 style="display:none;"
+		 title="Dynamic Content Resizing">
+		<div class="example-content">
+			<h3>Dynamic Content Demo</h3>
+			<div class="info-box">
+				<strong>GrowToHeight Feature:</strong> The dialog automatically resizes with smooth animation as content changes.
+			</div>
+			
+			<p>Current content sections: {{dynamicSections.length}}</p>
+			
+			<div ng-repeat="section in dynamicSections" class="dynamic-content" ng-class="{expanded: section.expanded}">
+				<h4>{{section.title}}</h4>
+				<p ng-show="section.expanded">{{section.content}}</p>
+			</div>
+			
+			<button ng-click="addDynamicSection()">Add Section</button>
+			<button class="secondary" ng-click="removeDynamicSection()" ng-show="dynamicSections.length > 1">Remove Section</button>
+			<button class="secondary" ng-click="toggleAllSections()">Toggle All</button>
+		</div>
+		<div data-type="footer">
+			<button ng-click="dynamicDialog.close()">Close</button>
+		</div>
+	</div>
+
+	<!-- 3. Multi-step registration flow with validation -->
+	<div flow-dialog
+		 flow-dialog-instance="registrationFlow"
+		 flow-dialog-options="registrationOptions"
+		 style="display:none;"
+		 title="User Registration - Step 1 of 4">
+		<div class="example-content">
+			<div class="step-indicator">
+				<span ng-class="{active: regStep === 1, completed: regStep > 1}">1</span>
+				<span ng-class="{active: regStep === 2, completed: regStep > 2}">2</span>
+				<span ng-class="{active: regStep === 3, completed: regStep > 3}">3</span>
+				<span ng-class="{active: regStep === 4}">4</span>
+			</div>
+			
+			<div class="progress-bar">
+				<div class="progress-bar-fill" style="width: {{(regStep / 4) * 100}}%"></div>
+			</div>
+			
+			<h3>Personal Information</h3>
+			
+			<div class="form-group">
+				<label>Full Name *</label>
+				<input type="text" ng-model="registration.name" placeholder="Enter your full name" />
+				<div class="error" ng-show="regErrors.name">{{regErrors.name}}</div>
+			</div>
+			
+			<div class="form-group">
+				<label>Email Address *</label>
+				<input type="email" ng-model="registration.email" placeholder="you@example.com" />
+				<div class="error" ng-show="regErrors.email">{{regErrors.email}}</div>
+			</div>
+		</div>
+		<div data-type="footer">
+			<button class="secondary" ng-click="registrationFlow.close()">Cancel</button>
+			<button ng-click="validateAndFlowReg('next')">Next</button>
+		</div>
+	</div>
+
+	<div id="regStep2" style="display:none;" title="User Registration - Step 2 of 4">
+		<div class="example-content">
+			<div class="step-indicator">
+				<span class="completed">1</span>
+				<span class="active">2</span>
+				<span>3</span>
+				<span>4</span>
+			</div>
+			
+			<div class="progress-bar">
+				<div class="progress-bar-fill" style="width: 50%"></div>
+			</div>
+			
+			<h3>Account Details</h3>
+			
+			<div class="form-group">
+				<label>Username *</label>
+				<input type="text" ng-model="registration.username" placeholder="Choose a username" />
+				<div class="error" ng-show="regErrors.username">{{regErrors.username}}</div>
+			</div>
+			
+			<div class="form-group">
+				<label>Password *</label>
+				<input type="password" ng-model="registration.password" placeholder="At least 8 characters" />
+				<div class="error" ng-show="regErrors.password">{{regErrors.password}}</div>
+			</div>
+			
+			<div class="form-group">
+				<label>Confirm Password *</label>
+				<input type="password" ng-model="registration.confirmPassword" placeholder="Re-enter password" />
+				<div class="error" ng-show="regErrors.confirmPassword">{{regErrors.confirmPassword}}</div>
+			</div>
+		</div>
+		<div data-type="footer">
+			<button class="secondary" ng-click="registrationFlow.flow('prev')">Previous</button>
+			<button ng-click="validateAndFlowReg('next')">Next</button>
+		</div>
+	</div>
+
+	<div id="regStep3" style="display:none;" title="User Registration - Step 3 of 4">
+		<div class="example-content">
+			<div class="step-indicator">
+				<span class="completed">1</span>
+				<span class="completed">2</span>
+				<span class="active">3</span>
+				<span>4</span>
+			</div>
+			
+			<div class="progress-bar">
+				<div class="progress-bar-fill" style="width: 75%"></div>
+			</div>
+			
+			<h3>Preferences</h3>
+			
+			<div class="form-group">
+				<label>Country</label>
+				<select ng-model="registration.country">
+					<option value="">Select a country</option>
+					<option value="us">United States</option>
+					<option value="uk">United Kingdom</option>
+					<option value="ca">Canada</option>
+					<option value="au">Australia</option>
+				</select>
+			</div>
+			
+			<div class="form-group">
+				<label>Bio</label>
+				<textarea ng-model="registration.bio" rows="4" placeholder="Tell us about yourself (optional)"></textarea>
+			</div>
+			
+			<div class="form-group">
+				<label>
+					<input type="checkbox" ng-model="registration.newsletter" style="width: auto; margin-right: 8px;" />
+					Subscribe to newsletter
+				</label>
+			</div>
+		</div>
+		<div data-type="footer">
+			<button class="secondary" ng-click="registrationFlow.flow('prev')">Previous</button>
+			<button ng-click="validateAndFlowReg('next')">Next</button>
+		</div>
+	</div>
+
+	<div id="regStep4" style="display:none;" title="User Registration - Complete">
+		<div class="example-content">
+			<div class="step-indicator">
+				<span class="completed">1</span>
+				<span class="completed">2</span>
+				<span class="completed">3</span>
+				<span class="active">4</span>
+			</div>
+			
+			<div class="progress-bar">
+				<div class="progress-bar-fill" style="width: 100%"></div>
+			</div>
+			
+			<div class="success-message">
+				<h3>Registration Complete!</h3>
+				<p><strong>Name:</strong> {{registration.name}}</p>
+				<p><strong>Email:</strong> {{registration.email}}</p>
+				<p><strong>Username:</strong> {{registration.username}}</p>
+				<p ng-show="registration.country"><strong>Country:</strong> {{registration.country}}</p>
+				<p ng-show="registration.bio"><strong>Bio:</strong> {{registration.bio}}</p>
+				<p ng-show="registration.newsletter">✓ Subscribed to newsletter</p>
+			</div>
+		</div>
+		<div data-type="footer">
+			<button class="secondary" ng-click="registrationFlow.flow('prev')">Previous</button>
+			<button class="success" ng-click="completeRegistration()">Finish</button>
+		</div>
+	</div>
+
+	<!-- 4. Basic Flow dialog -->
 	<div flow-dialog
 		 flow-dialog-instance="flowDialogInstance"
 		 flow-dialog-options="flowOptions"
@@ -104,15 +434,131 @@
 		</div>
 	</div>
 
+	<!-- 5. Advanced Product Wizard -->
+	<div flow-dialog
+		 flow-dialog-instance="productWizard"
+		 flow-dialog-options="productOptions"
+		 style="display:none;"
+		 title="Product Wizard - Select Category">
+		<div class="example-content">
+			<h3>What type of product?</h3>
+			
+			<div class="form-group">
+				<label>Product Category</label>
+				<select ng-model="product.category" ng-change="onCategoryChange()">
+					<option value="">Choose a category</option>
+					<option value="electronics">Electronics</option>
+					<option value="clothing">Clothing</option>
+					<option value="books">Books</option>
+				</select>
+			</div>
+			
+			<div class="info-box" ng-show="product.category">
+				Selected: <strong>{{product.category}}</strong> - The wizard will adapt to your selection!
+			</div>
+		</div>
+		<div data-type="footer">
+			<button class="secondary" ng-click="productWizard.close()">Cancel</button>
+			<button ng-click="productWizard.flow('next')" ng-disabled="!product.category">Next</button>
+		</div>
+	</div>
+
+	<div id="productStep2" style="display:none;" title="Product Wizard - Details">
+		<div class="example-content">
+			<h3>{{product.category}} Details</h3>
+			
+			<div class="form-group">
+				<label>Product Name</label>
+				<input type="text" ng-model="product.name" placeholder="Enter product name" />
+			</div>
+			
+			<!-- Electronics-specific fields -->
+			<div ng-show="product.category === 'electronics'">
+				<div class="form-group">
+					<label>Brand</label>
+					<input type="text" ng-model="product.brand" placeholder="e.g., Samsung, Apple" />
+				</div>
+				<div class="form-group">
+					<label>Warranty (months)</label>
+					<input type="number" ng-model="product.warranty" placeholder="12" />
+				</div>
+			</div>
+			
+			<!-- Clothing-specific fields -->
+			<div ng-show="product.category === 'clothing'">
+				<div class="form-group">
+					<label>Size</label>
+					<select ng-model="product.size">
+						<option value="xs">XS</option>
+						<option value="s">S</option>
+						<option value="m">M</option>
+						<option value="l">L</option>
+						<option value="xl">XL</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Color</label>
+					<input type="text" ng-model="product.color" placeholder="e.g., Blue, Red" />
+				</div>
+			</div>
+			
+			<!-- Books-specific fields -->
+			<div ng-show="product.category === 'books'">
+				<div class="form-group">
+					<label>Author</label>
+					<input type="text" ng-model="product.author" placeholder="Author name" />
+				</div>
+				<div class="form-group">
+					<label>ISBN</label>
+					<input type="text" ng-model="product.isbn" placeholder="ISBN number" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label>Price ($)</label>
+				<input type="number" ng-model="product.price" placeholder="0.00" step="0.01" />
+			</div>
+		</div>
+		<div data-type="footer">
+			<button class="secondary" ng-click="productWizard.flow('prev')">Previous</button>
+			<button ng-click="productWizard.flow('next')">Next</button>
+		</div>
+	</div>
+
+	<div id="productStep3" style="display:none;" title="Product Wizard - Review">
+		<div class="example-content">
+			<h3>Review Your Product</h3>
+			
+			<div class="info-box">
+				<p><strong>Category:</strong> {{product.category}}</p>
+				<p><strong>Name:</strong> {{product.name || 'Not specified'}}</p>
+				<p ng-show="product.brand"><strong>Brand:</strong> {{product.brand}}</p>
+				<p ng-show="product.warranty"><strong>Warranty:</strong> {{product.warranty}} months</p>
+				<p ng-show="product.size"><strong>Size:</strong> {{product.size}}</p>
+				<p ng-show="product.color"><strong>Color:</strong> {{product.color}}</p>
+				<p ng-show="product.author"><strong>Author:</strong> {{product.author}}</p>
+				<p ng-show="product.isbn"><strong>ISBN:</strong> {{product.isbn}}</p>
+				<p><strong>Price:</strong> ${{product.price || '0.00'}}</p>
+			</div>
+			
+			<div class="success-message">
+				All information looks good! Click "Complete" to finish the wizard.
+			</div>
+		</div>
+		<div data-type="footer">
+			<button class="secondary" ng-click="productWizard.flow('prev')">Previous</button>
+			<button class="success" ng-click="completeProductWizard()">Complete</button>
+		</div>
+	</div>
+
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js" integrity="sha384-IIvp+2w74tDLm4BNO/3jkdP1F1D7WvyMmEd0MzkpTqDd/w5sKaT5QIcVFXdq/M+m" crossorigin="anonymous"></script>
 	<script src="../../src/core/flowdialog-core.js"></script>
 	<script src="../../src/angular/angular-flowdialog.js"></script>
 	<script>
 		angular.module('flowDialogExample', ['flowdialog'])
 			.controller('MainController', ['$scope', 'FlowDialogService', function($scope, FlowDialogService) {
+				// Basic flow options
 				$scope.currentStep = 1;
-
-				// Flow options
 				$scope.flowOptions = {
 					width: 600,
 					closeOnEscape: true,
@@ -144,6 +590,9 @@
 						'<h3>Programmatic Dialog</h3>' +
 						'<p>This dialog was created using the FlowDialogService.</p>' +
 						'<p>Perfect for dynamic content!</p>' +
+						'<div class="info-box">' +
+						'<strong>Tip:</strong> You can create dialogs on-the-fly with custom content and Angular bindings.' +
+						'</div>' +
 						'</div>' +
 						'<div data-type="footer">' +
 						'<button ng-click="closeProgrammatic()">Close</button>' +
@@ -160,6 +609,192 @@
 					if ($scope.programmaticDialog) {
 						$scope.programmaticDialog.close();
 					}
+				};
+
+				// Dynamic content with growToHeight
+				$scope.dynamicSections = [
+					{ title: 'Section 1', content: 'This is the content of section 1. The dialog will smoothly animate its height as sections are added or removed.', expanded: true },
+					{ title: 'Section 2', content: 'This is the content of section 2. Notice how the dialog grows and shrinks with animation.', expanded: true }
+				];
+
+				$scope.dynamicOptions = {
+					width: 600,
+					growToHeight: true,  // Enable dynamic height with animation
+					height: 600,         // Max height
+					closeOnEscape: true,
+					useTransitions: true,
+					animateDuration: 300
+				};
+
+				$scope.addDynamicSection = function() {
+					var num = $scope.dynamicSections.length + 1;
+					$scope.dynamicSections.push({
+						title: 'Section ' + num,
+						content: 'This is dynamically added content for section ' + num + '. Watch the dialog animate smoothly!',
+						expanded: true
+					});
+				};
+
+				$scope.removeDynamicSection = function() {
+					if ($scope.dynamicSections.length > 1) {
+						$scope.dynamicSections.pop();
+					}
+				};
+
+				$scope.toggleAllSections = function() {
+					var allExpanded = $scope.dynamicSections.every(function(s) { return s.expanded; });
+					$scope.dynamicSections.forEach(function(s) {
+						s.expanded = !allExpanded;
+					});
+				};
+
+				// Registration flow with validation
+				$scope.registration = {
+					name: '',
+					email: '',
+					username: '',
+					password: '',
+					confirmPassword: '',
+					country: '',
+					bio: '',
+					newsletter: false
+				};
+
+				$scope.regErrors = {};
+				$scope.regStep = 1;
+
+				$scope.registrationOptions = {
+					width: 600,
+					growToHeight: true,
+					height: 500,
+					closeOnEscape: true,
+					useTransitions: true,
+					animateDuration: 300,
+					flow: [
+						document.getElementById('regStep2'),
+						document.getElementById('regStep3'),
+						document.getElementById('regStep4')
+					]
+				};
+
+				// Watch registration flow
+				$scope.$watch('registrationFlow', function(dialog) {
+					if (dialog) {
+						dialog.on('onFlow', function() {
+							$scope.$apply(function() {
+								$scope.regStep = dialog.flowIndex + 1;
+							});
+						});
+						dialog.on('onOpen', function() {
+							$scope.$apply(function() {
+								$scope.regStep = 1;
+								// Reset form on open
+								$scope.registration = {
+									name: '',
+									email: '',
+									username: '',
+									password: '',
+									confirmPassword: '',
+									country: '',
+									bio: '',
+									newsletter: false
+								};
+								$scope.regErrors = {};
+							});
+						});
+					}
+				});
+
+				$scope.validateAndFlowReg = function(direction) {
+					$scope.regErrors = {};
+					var valid = true;
+
+					if ($scope.regStep === 1) {
+						// Validate step 1
+						if (!$scope.registration.name || $scope.registration.name.trim() === '') {
+							$scope.regErrors.name = 'Name is required';
+							valid = false;
+						}
+						if (!$scope.registration.email || !$scope.registration.email.includes('@')) {
+							$scope.regErrors.email = 'Valid email is required';
+							valid = false;
+						}
+					} else if ($scope.regStep === 2) {
+						// Validate step 2
+						if (!$scope.registration.username || $scope.registration.username.length < 3) {
+							$scope.regErrors.username = 'Username must be at least 3 characters';
+							valid = false;
+						}
+						if (!$scope.registration.password || $scope.registration.password.length < 8) {
+							$scope.regErrors.password = 'Password must be at least 8 characters';
+							valid = false;
+						}
+						if ($scope.registration.password !== $scope.registration.confirmPassword) {
+							$scope.regErrors.confirmPassword = 'Passwords do not match';
+							valid = false;
+						}
+					}
+
+					if (valid) {
+						$scope.registrationFlow.flow(direction);
+					}
+				};
+
+				$scope.completeRegistration = function() {
+					console.log('Registration completed:', $scope.registration);
+					alert('Registration completed successfully for ' + $scope.registration.name + '!');
+					$scope.registrationFlow.close();
+				};
+
+				// Product wizard with conditional steps
+				$scope.product = {
+					category: '',
+					name: '',
+					price: null
+				};
+
+				$scope.productOptions = {
+					width: 700,
+					growToHeight: true,
+					height: 550,
+					closeOnEscape: true,
+					useTransitions: true,
+					animateDuration: 300,
+					flow: [
+						document.getElementById('productStep2'),
+						document.getElementById('productStep3')
+					]
+				};
+
+				$scope.$watch('productWizard', function(dialog) {
+					if (dialog) {
+						dialog.on('onOpen', function() {
+							$scope.$apply(function() {
+								// Reset product on open
+								$scope.product = {
+									category: '',
+									name: '',
+									price: null
+								};
+							});
+						});
+					}
+				});
+
+				$scope.onCategoryChange = function() {
+					// Clear category-specific fields when category changes
+					delete $scope.product.brand;
+					delete $scope.product.warranty;
+					delete $scope.product.size;
+					delete $scope.product.color;
+					delete $scope.product.author;
+					delete $scope.product.isbn;
+				};
+
+				$scope.completeProductWizard = function() {
+					console.log('Product wizard completed:', $scope.product);
+					alert('Product added successfully: ' + $scope.product.name);
+					$scope.productWizard.close();
 				};
 			}]);
 	</script>
