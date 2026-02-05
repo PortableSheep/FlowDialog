@@ -8,6 +8,14 @@
 ;(function($, FlowDialog) {
 	'use strict';
 
+	// Guard: Exit if jQuery or FlowDialog core is not available
+	if (!$ || !FlowDialog) {
+		if (typeof console !== 'undefined' && console.warn) {
+			console.warn('FlowDialog jQuery adapter requires both jQuery and FlowDialog core to be loaded.');
+		}
+		return;
+	}
+
 	var pluginName = 'flowdialog';
 
 	/**
@@ -111,25 +119,28 @@
 	/**
 	 * jQuery plugin interface
 	 */
-	$.fn[pluginName] = function(o) {
-		var options = ($.isPlainObject(o) ? o : {});
-		var instance = $.data(this, 'plugin_' + pluginName);
+	if ($ && $.fn) {
+		$.fn[pluginName] = function(o) {
+			var options = ($.isPlainObject(o) ? o : {});
+			var instance = $.data(this, 'plugin_' + pluginName);
 
-		if (instance) {
-			// We have an instance
-			if (typeof o === 'string' && instance[o] && $.isFunction(instance[o])) {
-				// Call method
-				var args = (arguments.length >= 2 ? Array.prototype.slice.call(arguments, 1) : []);
-				var ret = instance[o].apply(instance, args);
-				return ret === undefined ? this : ret;
+			if (instance) {
+				// We have an instance
+				if (typeof o === 'string' && instance[o] && $.isFunction(instance[o])) {
+					// Call method
+					var args = (arguments.length >= 2 ? Array.prototype.slice.call(arguments, 1) : []);
+					var ret = instance[o].apply(instance, args);
+					return ret === undefined ? this : ret;
+				}
+				return this;
+			} else {
+				// Create new instance
+				instance = new jQueryFlowDialog(this[0], options);
+				$.data(this, 'plugin_' + pluginName, instance);
+				return this;
 			}
-			return this;
-		} else {
-			// Create new instance
-			instance = new jQueryFlowDialog(this[0], options);
-			$.data(this, 'plugin_' + pluginName, instance);
-			return this;
-		}
-	};
+		};
+	}
 
-})(jQuery, typeof FlowDialog !== 'undefined' ? FlowDialog : require('../core/flowdialog-core'));
+})(typeof jQuery !== 'undefined' ? jQuery : (typeof $ !== 'undefined' ? $ : null), 
+   typeof FlowDialog !== 'undefined' ? FlowDialog : (typeof require !== 'undefined' ? require('../core/flowdialog-core') : null));

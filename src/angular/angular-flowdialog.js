@@ -8,6 +8,14 @@
 (function(angular, FlowDialog) {
 	'use strict';
 
+	// Guard: Exit if Angular or FlowDialog core is not available
+	if (!angular || !FlowDialog) {
+		if (typeof console !== 'undefined' && console.warn) {
+			console.warn('FlowDialog Angular wrapper requires both Angular and FlowDialog core to be loaded.');
+		}
+		return;
+	}
+
 	// Create Angular module
 	var module = angular.module('flowdialog', []);
 
@@ -145,6 +153,6 @@
 	}
 
 })(
-	typeof angular !== 'undefined' ? angular : require('angular'),
-	typeof FlowDialog !== 'undefined' ? FlowDialog : require('../core/flowdialog-core')
+	typeof angular !== 'undefined' ? angular : (typeof require !== 'undefined' ? require('angular') : null),
+	typeof FlowDialog !== 'undefined' ? FlowDialog : (typeof require !== 'undefined' ? require('../core/flowdialog-core') : null)
 );
