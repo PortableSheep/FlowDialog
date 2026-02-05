@@ -261,8 +261,8 @@
 			<h2>Interactive Demos</h2>
 			
 			<div class="framework-tabs">
-				<button class="framework-tab active" onclick="switchFramework('vanilla')">Vanilla JS</button>
-				<button class="framework-tab" onclick="switchFramework('jquery')">jQuery</button>
+				<button class="framework-tab active" onclick="switchFramework('vanilla', event)">Vanilla JS</button>
+				<button class="framework-tab" onclick="switchFramework('jquery', event)">jQuery</button>
 			</div>
 
 			<!-- Vanilla JS Demos -->
@@ -523,7 +523,7 @@ $('#myDialog').on('flowdialog_onOpen', function() {
 	<script src="../src/adapters/jquery.flowdialog.js"></script>
 	<script>
 		// Framework switching
-		function switchFramework(framework) {
+		function switchFramework(framework, event) {
 			// Update tabs
 			document.querySelectorAll('.framework-tab').forEach(tab => {
 				tab.classList.remove('active');
