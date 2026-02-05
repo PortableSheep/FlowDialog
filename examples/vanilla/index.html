@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>FlowDialog - Vanilla JS Example</title>
+	<link rel="stylesheet" href="../../flowdialog.css">
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			padding: 20px;
+			max-width: 800px;
+			margin: 0 auto;
+		}
+		h1 {
+			color: #333;
+		}
+		button {
+			padding: 10px 20px;
+			margin: 5px;
+			cursor: pointer;
+			background: #007bff;
+			color: white;
+			border: none;
+			border-radius: 4px;
+		}
+		button:hover {
+			background: #0056b3;
+		}
+		.example-content {
+			padding: 20px;
+		}
+		.dialog-footer button {
+			background: #28a745;
+		}
+		.dialog-footer button:hover {
+			background: #1e7e34;
+		}
+	</style>
+</head>
+<body>
+	<h1>FlowDialog - Vanilla JavaScript Example</h1>
+	<p>This demonstrates the framework-agnostic FlowDialog core without any dependencies.</p>
+
+	<h2>Basic Dialog</h2>
+	<button id="openBasic">Open Basic Dialog</button>
+
+	<h2>Dialog with Flow</h2>
+	<button id="openFlow">Open Flow Dialog</button>
+
+	<!-- Hidden dialog content -->
+	<div id="basicDialog" style="display:none;" title="Basic Dialog">
+		<div class="example-content">
+			<h3>Welcome to FlowDialog!</h3>
+			<p>This is a framework-agnostic modal dialog.</p>
+			<p>No jQuery or other dependencies required!</p>
+		</div>
+		<div data-type="footer">
+			<button onclick="closeBasicDialog()">Close</button>
+		</div>
+	</div>
+
+	<div id="flowDialog1" style="display:none;" title="Step 1">
+		<div class="example-content">
+			<h3>Step 1 of 3</h3>
+			<p>This is the first step in a multi-step flow.</p>
+		</div>
+		<div data-type="footer">
+			<button onclick="flowDialog.flow('next')">Next</button>
+		</div>
+	</div>
+
+	<div id="flowDialog2" style="display:none;" title="Step 2">
+		<div class="example-content">
+			<h3>Step 2 of 3</h3>
+			<p>This is the second step.</p>
+		</div>
+		<div data-type="footer">
+			<button onclick="flowDialog.flow('prev')">Previous</button>
+			<button onclick="flowDialog.flow('next')">Next</button>
+		</div>
+	</div>
+
+	<div id="flowDialog3" style="display:none;" title="Step 3">
+		<div class="example-content">
+			<h3>Step 3 of 3</h3>
+			<p>This is the final step!</p>
+		</div>
+		<div data-type="footer">
+			<button onclick="flowDialog.flow('prev')">Previous</button>
+			<button onclick="flowDialog.close()">Finish</button>
+		</div>
+	</div>
+
+	<script src="../../src/core/flowdialog-core.js"></script>
+	<script>
+		var basicDialog;
+		var flowDialog;
+
+		// Basic dialog
+		document.getElementById('openBasic').addEventListener('click', function() {
+			if (!basicDialog) {
+				basicDialog = new FlowDialog(document.getElementById('basicDialog'), {
+					width: 500,
+					closeOnEscape: true,
+					closeOnOverlayClick: true
+				});
+			}
+			basicDialog.open();
+		});
+
+		function closeBasicDialog() {
+			if (basicDialog) {
+				basicDialog.close();
+			}
+		}
+
+		// Flow dialog
+		document.getElementById('openFlow').addEventListener('click', function() {
+			if (!flowDialog) {
+				flowDialog = new FlowDialog(document.getElementById('flowDialog1'), {
+					width: 600,
+					closeOnEscape: true,
+					flow: [
+						document.getElementById('flowDialog2'),
+						document.getElementById('flowDialog3')
+					]
+				});
+			}
+			flowDialog.open();
+		});
+	</script>
+</body>
+</html>

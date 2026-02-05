@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>FlowDialog - jQuery Adapter Example</title>
+	<link rel="stylesheet" href="../../flowdialog.css">
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			padding: 20px;
+			max-width: 800px;
+			margin: 0 auto;
+		}
+		h1 {
+			color: #333;
+		}
+		button {
+			padding: 10px 20px;
+			margin: 5px;
+			cursor: pointer;
+			background: #007bff;
+			color: white;
+			border: none;
+			border-radius: 4px;
+		}
+		button:hover {
+			background: #0056b3;
+		}
+		.example-content {
+			padding: 20px;
+		}
+	</style>
+</head>
+<body>
+	<h1>FlowDialog - jQuery Adapter Example</h1>
+	<p>This demonstrates the jQuery adapter wrapping the framework-agnostic core.</p>
+	<p>The API is 100% backward compatible with the original jQuery plugin!</p>
+
+	<h2>Basic Dialog</h2>
+	<button id="openBasic">Open Basic Dialog</button>
+
+	<h2>Dialog with Flow</h2>
+	<button id="openFlow">Open Flow Dialog</button>
+
+	<!-- Hidden dialog content -->
+	<div id="basicDialog" style="display:none;" title="Basic Dialog (jQuery)">
+		<div class="example-content">
+			<h3>Welcome to FlowDialog!</h3>
+			<p>This uses the jQuery adapter which wraps the framework-agnostic core.</p>
+			<p>100% backward compatible with the original API!</p>
+		</div>
+		<div data-type="footer">
+			<button onclick="$('#basicDialog').flowdialog('close')">Close</button>
+		</div>
+	</div>
+
+	<div id="flowDialog1" style="display:none;" title="Step 1">
+		<div class="example-content">
+			<h3>Step 1 of 3</h3>
+			<p>Flow between dialog views seamlessly.</p>
+		</div>
+		<div data-type="footer">
+			<button onclick="$('#flowDialog1').flowdialog('flow', 'next')">Next</button>
+		</div>
+	</div>
+
+	<div id="flowDialog2" style="display:none;" title="Step 2">
+		<div class="example-content">
+			<h3>Step 2 of 3</h3>
+			<p>The API works exactly as before.</p>
+		</div>
+		<div data-type="footer">
+			<button onclick="$('#flowDialog1').flowdialog('flow', 'prev')">Previous</button>
+			<button onclick="$('#flowDialog1').flowdialog('flow', 'next')">Next</button>
+		</div>
+	</div>
+
+	<div id="flowDialog3" style="display:none;" title="Step 3">
+		<div class="example-content">
+			<h3>Step 3 of 3</h3>
+			<p>But now it's powered by a modern, framework-agnostic core!</p>
+		</div>
+		<div data-type="footer">
+			<button onclick="$('#flowDialog1').flowdialog('flow', 'prev')">Previous</button>
+			<button onclick="$('#flowDialog1').flowdialog('close')">Finish</button>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="../../src/core/flowdialog-core.js"></script>
+	<script src="../../src/adapters/jquery.flowdialog.js"></script>
+	<script>
+		$(document).ready(function() {
+			// Basic dialog - backward compatible API
+			$('#openBasic').on('click', function() {
+				$('#basicDialog').flowdialog({
+					width: 500,
+					closeOnEscape: true,
+					closeOnOverlayClick: true
+				}).flowdialog('open');
+			});
+
+			// Flow dialog - backward compatible API
+			$('#openFlow').on('click', function() {
+				$('#flowDialog1').flowdialog({
+					width: 600,
+					closeOnEscape: true,
+					flow: [
+						$('#flowDialog2'),
+						$('#flowDialog3')
+					]
+				}).flowdialog('open');
+			});
+
+			// Event handlers work the same way
+			$('#basicDialog').on('flowdialog_onOpen', function() {
+				console.log('Basic dialog opened!');
+			});
+
+			$('#flowDialog1').on('flowdialog_onFlow', function() {
+				console.log('Flowed to index:', $(this).flowdialog('flow', 'index'));
+			});
+		});
+	</script>
+</body>
+</html>

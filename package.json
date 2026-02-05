@@ -1,12 +1,17 @@
 {
   "name": "flowdialog",
-  "version": "1.0.9",
-  "description": "Bootstrap inspired modal dialog that allows flowing between dialog views.",
-  "main": "jquery.flowdialog.js",
+  "version": "2.0.0",
+  "description": "Framework-agnostic modal dialog with flow support. Works with vanilla JS, jQuery, and Angular.",
+  "main": "src/core/flowdialog-core.js",
+  "types": "src/core/flowdialog-core.d.ts",
   "keywords": [
     "dialog",
     "modal",
-    "ecosystem:jquery"
+    "flow",
+    "vanilla-js",
+    "framework-agnostic",
+    "angular",
+    "jquery"
   ],
   "homepage": "http://flowdialog.portablesheep.com",
   "author": {
@@ -31,7 +36,30 @@
       "url": "https://raw.github.com/PortableSheep/qjax/master/GPL-LICENSE.txt"
     }
   ],
-  "dependencies": {
-    "jquery": ">=1.8"
-  }
+  "peerDependencies": {
+    "jquery": ">=1.8",
+    "angular": ">=1.2"
+  },
+  "peerDependenciesMeta": {
+    "jquery": {
+      "optional": true
+    },
+    "angular": {
+      "optional": true
+    }
+  },
+  "exports": {
+    ".": "./src/core/flowdialog-core.js",
+    "./core": "./src/core/flowdialog-core.js",
+    "./jquery": "./src/adapters/jquery.flowdialog.js",
+    "./angular": "./src/angular/angular-flowdialog.js",
+    "./css": "./flowdialog.css"
+  },
+  "files": [
+    "src/",
+    "flowdialog.css",
+    "README.md",
+    "jquery.flowdialog.js",
+    "jquery.flowdialog.min.js"
+  ]
 }
