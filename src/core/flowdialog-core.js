@@ -516,8 +516,10 @@
 				self.isFlowing = true;
 
 				if (self.options.useTransitions) {
-					// Always measure target height for smooth animation between steps
-					var targetHeight;
+					// Always measure target dimensions for smooth animation between steps
+					var targetHeight, targetWidth;
+					
+					// Temporarily display target to measure dimensions
 					targetFlow.target.style.position = 'absolute';
 					targetFlow.target.style.left = '-9999px';
 					targetFlow.target.style.visibility = 'hidden';
@@ -525,13 +527,18 @@
 					targetFlow.target.style.width = targetFlow.width + 'px';
 					targetFlow._$content.style.height = 'auto';
 					
+					// Measure actual content height
 					targetHeight = targetFlow._$content.offsetHeight;
+					
+					// Use configured width (width is typically design-controlled)
+					targetWidth = targetFlow.width;
 					
 					// Apply max-height constraint if height is specified
 					if (targetFlow.height !== 'auto') {
 						targetHeight = Math.min(targetHeight, targetFlow.height);
 					}
 					
+					// Restore styles
 					targetFlow.target.style.position = '';
 					targetFlow.target.style.left = '';
 					targetFlow.target.style.visibility = '';
@@ -548,14 +555,14 @@
 						targetFlow.target.style.display = 'block';
 						currentFlow.target.style.display = 'none';
 
-						// Animate dimensions
+						// Animate dimensions (height and width)
 						utils.animate(targetFlow._$content, { 
 							height: targetHeight
 						}, self.options.animateDuration);
 						
 						utils.animate(self.$modal, {
-							width: targetFlow.width,
-							left: Math.max(0, ((window.innerWidth || document.documentElement.clientWidth) - targetFlow.width) / 2) + (window.pageXOffset || document.documentElement.scrollLeft || 0)
+							width: targetWidth,
+							left: Math.max(0, ((window.innerWidth || document.documentElement.clientWidth) - targetWidth) / 2) + (window.pageXOffset || document.documentElement.scrollLeft || 0)
 						}, self.options.animateDuration, function() {
 							// Update flow index
 							self.flowIndex = index;
