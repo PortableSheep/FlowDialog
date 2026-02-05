@@ -516,23 +516,29 @@
 				self.isFlowing = true;
 
 				if (self.options.useTransitions) {
+					// Always measure target height for smooth animation between steps
 					var targetHeight;
-					if (targetFlow.height === 'auto' || targetFlow.growToHeight) {
-						// Get target height
-						targetFlow.target.style.position = 'absolute';
-						targetFlow.target.style.left = '-9999px';
-						targetFlow.target.style.visibility = 'hidden';
-						targetFlow.target.style.display = 'block';
-						targetFlow.target.style.width = targetFlow.width + 'px';
-						targetFlow._$content.style.height = 'auto';
-						
-						targetHeight = targetFlow._$content.offsetHeight;
-						
-						targetFlow.target.style.position = '';
-						targetFlow.target.style.left = '';
-						targetFlow.target.style.visibility = '';
-						targetFlow.target.style.display = '';
+					targetFlow.target.style.position = 'absolute';
+					targetFlow.target.style.left = '-9999px';
+					targetFlow.target.style.visibility = 'hidden';
+					targetFlow.target.style.display = 'block';
+					targetFlow.target.style.width = targetFlow.width + 'px';
+					targetFlow._$content.style.height = 'auto';
+					
+					targetHeight = targetFlow._$content.offsetHeight;
+					
+					// Apply max-height constraint if using growToHeight
+					if (targetFlow.growToHeight && targetFlow.height !== 'auto') {
+						targetHeight = Math.min(targetHeight, targetFlow.height);
+					} else if (targetFlow.height !== 'auto') {
+						// Use configured height if not auto or growToHeight
+						targetHeight = Math.min(targetHeight, targetFlow.height);
 					}
+					
+					targetFlow.target.style.position = '';
+					targetFlow.target.style.left = '';
+					targetFlow.target.style.visibility = '';
+					targetFlow.target.style.display = '';
 
 					// Hide overflow during animation
 					self.$modal.style.overflow = 'hidden';
@@ -547,7 +553,7 @@
 
 						// Animate dimensions
 						utils.animate(targetFlow._$content, { 
-							height: targetHeight || targetFlow.height 
+							height: targetHeight
 						}, self.options.animateDuration);
 						
 						utils.animate(self.$modal, {
