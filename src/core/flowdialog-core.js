@@ -527,11 +527,8 @@
 					
 					targetHeight = targetFlow._$content.offsetHeight;
 					
-					// Apply max-height constraint if using growToHeight
-					if (targetFlow.growToHeight && targetFlow.height !== 'auto') {
-						targetHeight = Math.min(targetHeight, targetFlow.height);
-					} else if (targetFlow.height !== 'auto') {
-						// Use configured height if not auto or growToHeight
+					// Apply max-height constraint if height is specified
+					if (targetFlow.height !== 'auto') {
 						targetHeight = Math.min(targetHeight, targetFlow.height);
 					}
 					
