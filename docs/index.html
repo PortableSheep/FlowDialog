@@ -395,13 +395,13 @@
             
             <h3>Via NPM</h3>
             <div class="code-example">
-<span class="comment"># Install via npm</span>
-npm install flowdialog
+<pre><code><span class="comment"># Install via npm</span>
+npm install flowdialog</code></pre>
             </div>
 
             <h3>Via CDN or Direct Download</h3>
             <div class="code-example">
-<span class="comment">&lt;!-- CSS --&gt;</span>
+<pre><code><span class="comment">&lt;!-- CSS --&gt;</span>
 &lt;<span class="keyword">link</span> <span class="function">rel</span>=<span class="string">"stylesheet"</span> <span class="function">href</span>=<span class="string">"flowdialog.css"</span>&gt;
 
 <span class="comment">&lt;!-- Core library (required) --&gt;</span>
@@ -411,7 +411,7 @@ npm install flowdialog
 &lt;<span class="keyword">script</span> <span class="function">src</span>=<span class="string">"src/adapters/jquery.flowdialog.js"</span>&gt;&lt;/<span class="keyword">script</span>&gt;
 
 <span class="comment">&lt;!-- Optional: Angular wrapper --&gt;</span>
-&lt;<span class="keyword">script</span> <span class="function">src</span>=<span class="string">"src/angular/angular-flowdialog.js"</span>&gt;&lt;/<span class="keyword">script</span>&gt;
+&lt;<span class="keyword">script</span> <span class="function">src</span>=<span class="string">"src/angular/angular-flowdialog.js"</span>&gt;&lt;/<span class="keyword">script</span>&gt;</code></pre>
             </div>
         </section>
 
@@ -420,7 +420,7 @@ npm install flowdialog
 
             <h3>Vanilla JavaScript</h3>
             <div class="code-example">
-<span class="comment">// Create a dialog from an element</span>
+<pre><code><span class="comment">// Create a dialog from an element</span>
 <span class="keyword">var</span> dialog = <span class="keyword">new</span> <span class="function">FlowDialog</span>(document.getElementById(<span class="string">'myDialog'</span>), {
     width: <span class="string">600</span>,
     closeOnEscape: <span class="keyword">true</span>,
@@ -434,12 +434,12 @@ dialog.open();
 <span class="comment">// Listen to events</span>
 dialog.on(<span class="string">'onOpen'</span>, <span class="keyword">function</span>() {
     console.log(<span class="string">'Dialog opened!'</span>);
-});
+});</code></pre>
             </div>
 
             <h3>jQuery (Backward Compatible)</h3>
             <div class="code-example">
-<span class="comment">// Initialize and open</span>
+<pre><code><span class="comment">// Initialize and open</span>
 $(<span class="string">'#myDialog'</span>).flowdialog({ 
     width: <span class="string">600</span>,
     growToHeight: <span class="keyword">true</span>
@@ -448,12 +448,12 @@ $(<span class="string">'#myDialog'</span>).flowdialog({
 <span class="comment">// Events work the same way</span>
 $(<span class="string">'#myDialog'</span>).on(<span class="string">'flowdialog_onOpen'</span>, <span class="keyword">function</span>() {
     console.log(<span class="string">'Dialog opened!'</span>);
-});
+});</code></pre>
             </div>
 
             <h3>Angular</h3>
             <div class="code-example">
-<span class="comment">&lt;!-- Declarative approach with directive --&gt;</span>
+<pre><code><span class="comment">&lt;!-- Declarative approach with directive --&gt;</span>
 &lt;<span class="keyword">div</span> <span class="function">flow-dialog</span> 
      <span class="function">flow-dialog-instance</span>=<span class="string">"myDialog"</span>
      <span class="function">flow-dialog-width</span>=<span class="string">"600"</span>
@@ -461,7 +461,7 @@ $(<span class="string">'#myDialog'</span>).on(<span class="string">'flowdialog_o
     &lt;<span class="keyword">p</span>&gt;Content here&lt;/<span class="keyword">p</span>&gt;
 &lt;/<span class="keyword">div</span>&gt;
 
-&lt;<span class="keyword">button</span> <span class="function">ng-click</span>=<span class="string">"myDialog.open()"</span>&gt;Open&lt;/<span class="keyword">button</span>&gt;
+&lt;<span class="keyword">button</span> <span class="function">ng-click</span>=<span class="string">"myDialog.open()"</span>&gt;Open&lt;/<span class="keyword">button</span>&gt;</code></pre>
             </div>
         </section>
 
@@ -677,7 +677,7 @@ $(<span class="string">'#myDialog'</span>).on(<span class="string">'flowdialog_o
 
             <h3>Creating a Flow (Wizard)</h3>
             <div class="code-example">
-<span class="comment">// HTML structure</span>
+<pre><code><span class="comment">// HTML structure</span>
 &lt;<span class="keyword">div</span> <span class="function">id</span>=<span class="string">"step1"</span> <span class="function">title</span>=<span class="string">"Step 1"</span>&gt;
     &lt;<span class="keyword">p</span>&gt;Content for step 1&lt;/<span class="keyword">p</span>&gt;
     &lt;<span class="keyword">div</span> <span class="function">data-type</span>=<span class="string">"footer"</span>&gt;
@@ -699,12 +699,12 @@ $(<span class="string">'#myDialog'</span>).on(<span class="string">'flowdialog_o
     flow: [
         document.getElementById(<span class="string">'step2'</span>)
     ]
-});
+});</code></pre>
             </div>
 
             <h3>Dynamic Content with growToHeight</h3>
             <div class="code-example">
-<span class="keyword">var</span> dialog = <span class="keyword">new</span> <span class="function">FlowDialog</span>(document.getElementById(<span class="string">'myDialog'</span>), {
+<pre><code><span class="keyword">var</span> dialog = <span class="keyword">new</span> <span class="function">FlowDialog</span>(document.getElementById(<span class="string">'myDialog'</span>), {
     width: <span class="string">600</span>,
     growToHeight: <span class="keyword">true</span>,    <span class="comment">// Enable dynamic resizing</span>
     height: <span class="string">500</span>,             <span class="comment">// This becomes max-height</span>
@@ -715,12 +715,12 @@ $(<span class="string">'#myDialog'</span>).on(<span class="string">'flowdialog_o
 dialog.open();
 
 <span class="comment">// When content changes, the dialog will automatically</span>
-<span class="comment">// animate to the new height (up to max of 500px)</span>
+<span class="comment">// animate to the new height (up to max of 500px)</span></code></pre>
             </div>
 
             <h3>Event Handling</h3>
             <div class="code-example">
-<span class="keyword">var</span> dialog = <span class="keyword">new</span> <span class="function">FlowDialog</span>(element, options);
+<pre><code><span class="keyword">var</span> dialog = <span class="keyword">new</span> <span class="function">FlowDialog</span>(element, options);
 
 <span class="comment">// Listen to events</span>
 dialog.on(<span class="string">'onOpen'</span>, <span class="keyword">function</span>() {
@@ -735,7 +735,7 @@ dialog.on(<span class="string">'onPreClose'</span>, <span class="keyword">functi
     <span class="keyword">if</span> (!confirm(<span class="string">'Are you sure?'</span>)) {
         e.preventDefault(); <span class="comment">// Cancel the close</span>
     }
-});
+});</code></pre>
             </div>
 
             <div class="info-box">
